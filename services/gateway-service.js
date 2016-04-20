@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import goodly from 'goodly';
 import debugModule from 'debug';
-import config from './config.json';
+import config from '../config.json';
 
 const debug = debugModule('gateway');
 

@@ -4,9 +4,9 @@
   "description": "Website example using goodly",
   "main": "index.js",
   "scripts": {
-    "start:gateway": "babel-node gateway-service",
-    "start:previews": "babel-node previews-service",
-    "start:item": "babel-node item-service"
+    "start:gateway": "babel-node services/gateway-service",
+    "start:previews": "babel-node services/previews-service",
+    "start:item": "babel-node services/item-service"
   },
   "author": "Brian <bmancini@gmail.com>",
   "license": "MIT",

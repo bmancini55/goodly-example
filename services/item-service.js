@@ -1,7 +1,7 @@
 import goodly from 'goodly';
 import mongo from 'mongo-helper';
 import debugModule from 'debug';
-import config from './config.json';
+import config from '../config.json';
 
 const debug = debugModule('item');
 
