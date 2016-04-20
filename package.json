@@ -6,7 +6,7 @@
   "scripts": {
     "start:gateway": "babel-node gateway-service",
     "start:previews": "babel-node previews-service",
-    "start:items": "babel-node item-service"
+    "start:item": "babel-node item-service"
   },
   "author": "Brian <bmancini@gmail.com>",
   "license": "MIT",

@@ -2,25 +2,32 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import goodly from 'goodly';
 import debugModule from 'debug';
+import config from './config.json';
 
-const debug = debugModule('gateway-service');
+const debug = debugModule('gateway');
 
 // bootstrap the gateway service
 let ms = goodly({ name: 'gateway' });
-ms.set('cache', goodly.redisCache({ redisUrl: process.env.REDIS }));
-ms.set('transport', goodly.httpTransport({ httpHost: process.env.HTTPHOST }));
-ms.start({ brokerPath: process.env.RABBIT }).catch(e => console.log(e.stack));
+ms.set('cache', goodly.redisCache({ redisUrl: config.redis.url }));
+ms.set('transport', goodly.httpTransport({ httpHost: config.httpTransport.host }));
+ms.start({ brokerPath: config.rabbit.brokerPath }).catch(e => console.log(e.stack));
 
 // create the express endpoints
 let app = express();
 app.use(bodyParser.json());
-app.post('/previews', (req, res, next) => createPreviews(req, res).catch(next));
+app.post('/api/previews', (req, res, next) => createPreviews(req, res).catch(next));
 
 // start express
-app.listen(5050, () => debug('express listening on port 5050'));
+app.listen(config.gateway.port, () => debug('express listening on port %d', config.gateway.port));
 
 
-
+/**
+ * POST /api/previews
+ * Handles HTTP requests for creating a previews record
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 async function createPreviews(req, res) {
   await ms.emit('previews.uploaded', req.body);
   // TODO - what if we want to return a result from here?
