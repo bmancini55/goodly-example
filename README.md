@@ -28,7 +28,7 @@ This application requires that you have Node 4.X installed on your machine.
 
 First you will need to clone the Git repository and install the Node dependencies:
 ```bash
-git clone https://github.com/bmancini/goodly-example
+git clone https://github.com/bmancini55/goodly-example
 cd goodly-example
 npm install
 ```
