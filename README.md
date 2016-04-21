@@ -1,5 +1,5 @@
 # goodly-example
-Example site for comics books using Goodly microservice communication framework.
+Example site for comic books using Goodly microservice communication framework.
 
 ## Getting Started
 
@@ -24,12 +24,21 @@ docker ps
 
 ### Application Setup
 
-First copy the configuration file example.  Each service will use this file to connect to the sub-elements.  In a full microservice architecture you would most likely use a configuration management solution such as Redis or Consul.
+This application requires that you have Node 4.X installed on your machine.  
+
+First you will need to clone the Git repository and install the Node dependencies:
+```bash
+git clone https://github.com/bmancini/goodly-example
+cd goodly-example
+npm install
+```
+
+Then copy the configuration file example from `config.json.example` to `config.json`.  Each service will use this file to connect to the sub-elements. In a full microservice architecture you would most likely use a configuration management solution such as Redis or Consul.
 ```bash
 cp config.json.example config.json
 ```
 
-After copying the file, modify the paths to map to your environment (by default it is configured to work with the default IP from docker-machine).
+After copying the file, modify the paths to map to your environment (by default it is configured to work with the default IP from docker-machine, 192.168.99.100).
 
 
 You can then start the indvidual pieces of the application:
@@ -88,7 +97,9 @@ docker exec -it mongo1 /bin/bash
 
 ```bash
 root@68009c0b3579:/# mongo
+```
 
+```bash
 > use goodly
 switched to db goodly
 > db.previews.find().pretty()
