@@ -34,8 +34,8 @@ const debug = debugModule('item');
  * @param  {[type]} options.emit [description]
  * @return {[type]}              [description]
  */
-async function previewsAvailable(data, { ctx, emit }) {
-  let collection = await ctx.get('mongo');
+async function previewsAvailable({ service, emit, data }) {
+  let collection = await service.get('mongo');
 
   // persist the record
   let filter = { _id: data.stock_no };

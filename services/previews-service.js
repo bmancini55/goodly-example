@@ -35,8 +35,8 @@ const debug = debugModule('previews');
  * @param  {[type]} options.emit [description]
  * @return {[type]}              [description]
  */
-async function previewsUploaded(data, { ctx, emit }) {
-  let collection = await ctx.get('mongo');
+async function previewsUploaded({ service, emit, data }) {
+  let collection = await service.get('mongo');
 
   // pesist the record
   let filter  = { _id: data.previews_no };
