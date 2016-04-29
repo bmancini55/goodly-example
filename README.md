@@ -14,7 +14,7 @@ docker run -d -p 5672:5672 -p 15672:15672 --name rabbit1 rabbitmq:management
 docker run -d -p 6379:6379 --name redis1 redis
 
 # Start MongoDB
-docker run -d -p 27017:27017 -p 28017:28017 -e AUTH=no --name mongo1 tutum/mongodb
+docker run -d -p 27017:27017 --name mongo1 mongo
 ```
 
 Ensure that the containers are running
