@@ -6,7 +6,8 @@
   "scripts": {
     "start:gateway": "babel-node services/gateway-service",
     "start:previews": "babel-node services/previews-service",
-    "start:item": "babel-node services/item-service"
+    "start:item": "babel-node services/item-service",
+    "start:people": "babel-node services/people-service"
   },
   "author": "Brian <bmancini@gmail.com>",
   "license": "MIT",
@@ -19,5 +20,9 @@
     "express": "^4.13.4",
     "goodly": "bmancini55/goodly",
     "mongo-helper": "github:bmancini55/mongo-helper"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.0.4",
+    "eslint": "^2.8.0"
   }
 }
