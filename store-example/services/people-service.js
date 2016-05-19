@@ -81,7 +81,7 @@ async function processPerson({ collection, emit, name, isAuthor, isCoverArtist, 
     emit('person.available', person);
 }
 
-async function upsertAuthor({ collection, emit, normed, rawName, isAuthor }) {
+async function upsertAuthor({ collection, normed, rawName, isAuthor }) {
   let filter = { name: normed };
   let update = {
     $setOnInsert: {
@@ -104,7 +104,7 @@ async function upsertAuthor({ collection, emit, normed, rawName, isAuthor }) {
     return result.value;
 }
 
-async function upsertCoverArtist({ collection, emit, normed, rawName, isCoverArtist }) {
+async function upsertCoverArtist({ collection, normed, rawName, isCoverArtist }) {
   let filter = { name: normed };
   let update = {
     $setOnInsert: {
@@ -120,14 +120,14 @@ async function upsertCoverArtist({ collection, emit, normed, rawName, isCoverArt
     $addToSet: {
       rawNames: rawName
     }
-  }
+  };
   let options = { upsert: true, returnOriginal: false };
   let result = await collection.findOneAndUpdateAsync(filter, update, options);
   if(result.ok)
     return result.value;
 }
 
-async function upsertArtist({ collection, emit, normed, rawName, isArtist }) {
+async function upsertArtist({ collection, normed, rawName, isArtist }) {
   let filter = { name: normed };
   let update = {
     $setOnInsert: {
@@ -143,7 +143,7 @@ async function upsertArtist({ collection, emit, normed, rawName, isArtist }) {
     $addToSet: {
       rawNames: rawName
     }
-  }
+  };
   let options = { upsert: true, returnOriginal: false };
   let result = await collection.findOneAndUpdateAsync(filter, update, options);
   if(result.ok)

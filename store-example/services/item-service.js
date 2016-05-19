@@ -11,16 +11,20 @@ const debug = debugModule('item');
 (async () => {
 
   const db = await mongo.connect({ url: config.mongo.url });
-  const collection = db.collection('items');
+  const itemsCollection = db.collection('items');
+  const itemPeopleCollection = db.collection('itempeople');
   debug('connected to %s', config.mongo.url);
 
   let ms = goodly({ name: 'item' });
   await ms.set('cache', goodly.redisCache({ redisUrl: config.redis.url }));
   await ms.set('transport', goodly.httpTransport({ httpHost: config.httpTransport.host }));
-  await ms.set('mongo', collection);
   await ms.start({ brokerPath: config.rabbit.brokerPath });
 
-  await ms.on('previews.available', previewsAvailable)
+  await ms.set('items-collection', itemsCollection);
+  await ms.set('itempeople-collection', itemPeopleCollection);
+
+  await ms.on('previews.available', previewsAvailable);
+  await ms.on('person.available', personAvailable);
 
 })().catch(e => console.log(e.stack));
 
@@ -35,7 +39,7 @@ const debug = debugModule('item');
  * @return {[type]}              [description]
  */
 async function previewsAvailable({ service, emit, data }) {
-  let collection = await service.get('mongo');
+  let collection = await service.get('items-collection');
 
   // persist the record
   let filter = { _id: data.stock_no };
@@ -52,7 +56,7 @@ async function previewsAvailable({ service, emit, data }) {
       artist: data.artist,
       cover_artist: data.cover_artist
     }
-  }
+  };
   let options = { upsert: true, returnOriginal: false };
   let result = await collection.findOneAndUpdateAsync(filter, update, options);
 
@@ -62,4 +66,22 @@ async function previewsAvailable({ service, emit, data }) {
   }
 }
 
+/**
+ * Handles a person being available and duplicates the person
+ * record for use by the
+ * @param  {[type]} options.data [description]
+ * @return {[type]}              [description]
+ */
+async function personAvailable({ service, data }) {
+  let collection = await service.get('itempeople-collection');
+
+  let filter = { _id: data._id };
+  let update = data;
+  let options = { upsert: true, returnOriginal: false };
+
+  // update local cache of users
+  await collection.findOneAndUpdateAsync(filter, update, options);
+
+  // insert record
+}
 
