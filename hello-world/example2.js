@@ -16,7 +16,7 @@ if(!process.argv[2]) {
   const service = goodly({ name: 'example2-ping' });
   await service.start({ brokerPath: process.argv[2] });
 
-  // list to the pong e vent and emit a ping event
+  // list to the pong event and emit a ping event
   await service.on('pong', async ({ emit }) => {
     if(rounds > 5) return;
 
@@ -37,7 +37,7 @@ if(!process.argv[2]) {
   const service = goodly({ name: 'example2-pong' });
   await service.start({ brokerPath: process.argv[2] });
 
-  // list to the ping e vent and emit a ping event
+  // list to the ping event and emit a pong event
   await service.on('ping', async ({ emit }) => {
     console.log('pong');
     await emit('pong');
