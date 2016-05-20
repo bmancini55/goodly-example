@@ -18,6 +18,11 @@ npm run example2 192.168.99.100
 npm run example2 192.168.99.100
 ```
 
+For additional logging, you can use set the environment variable DEBUG=goodly* when executing the script
+```sh
+DEBUG=goodly* npm run example1 192.168.99.100
+```
+
 ## Examples
 
 1. [view](https://github.com/bmancini55/goodly-example/blob/master/hello-world/example1.js) - Basics of goodly, listening to a message and emitting a message
