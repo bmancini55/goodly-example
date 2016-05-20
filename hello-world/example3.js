@@ -15,7 +15,8 @@ if(!process.argv[2]) {
   const service = goodly({ name: 'example3-request' });
   await service.start({ brokerPath: process.argv[2] });
 
-  // start the ping/pong with a ping
+  // send a request to the 'request' event and block 
+  // execution until there is a result from some service
   let result = await service.request('request', { name: 'world' });
   console.log(result);
 
