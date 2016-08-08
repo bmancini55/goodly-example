@@ -1,9 +1,9 @@
 # goodly-example
-These are examples for using Goodly.
+These are examples for using the Goodly Microservice Framework.
 
 ## Getting started
 
-The fastest way to get up and running is via Docker ([linux](https://docs.docker.com/linux/step_one/), [osx](https://docs.docker.com/mac/step_one/), [windows](https://docs.docker.com/windows/step_one/))
+The fastest way to get up and running is via Docker ([linux](https://docs.docker.com/linux/step_one/), [osx](https://docs.docker.com/mac/step_one/), [windows](https://docs.docker.com/windows/step_one/)).
 
 Once Docker is installed, you should run RabbitMQ:
 ```sh

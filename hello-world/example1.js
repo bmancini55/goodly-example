@@ -4,26 +4,24 @@
 
 import goodly from 'goodly';
 
-if(!process.argv[2]) {
-  console.log('You must supply the broker path');
-  process.exit(1);
-}
+// broker
+const brokerPath = process.argv[2] || '192.168.99.100';
 
-// async IIFE wraps the service start so that we can use
-// ES7 async/await functionality
-(async () => {
+// create a goodly service
+const service = goodly({ name: 'example1' });
 
-  // create the service called example1 and
-  // connect to the message broker based on the first command line argument
-  const service = goodly({ name: 'example1' });
-  await service.start({ brokerPath: process.argv[2] });
+// attach a listener to an event named 'first'
+service.on('first', async ({ data }) => {
+  console.log(`\n I received: ${data}\n`);
+});
 
-  // listen to an event called 'first'
-  await service.on('first', ({ data }) => {
-    console.log(`\nI received: ${data}\n`);
+// start the service by connecting to RabbitMQ
+service
+  .start({ brokerPath })
+  // then once started...
+  .then((service) => {
+    // emit our first event into the broker
+    let event = 'first';
+    let data  = 'hello world';
+    service.emit(event, data);
   });
-
-  // emit some data to the first event
-  await service.emit('first', 'hello world');
-
-})().catch(console.log);
