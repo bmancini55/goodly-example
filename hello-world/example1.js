@@ -4,7 +4,6 @@
 
 import goodly from 'goodly';
 
-// broker
 const brokerPath = process.argv[2] || '192.168.99.100';
 
 // create a goodly service

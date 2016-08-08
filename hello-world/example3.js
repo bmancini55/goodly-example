@@ -4,34 +4,32 @@
 
 import goodly from 'goodly';
 
-if(!process.argv[2]) {
-  console.log('You must supply the broker path');
-  process.exit(1);
+const brokerPath = process.argv[2] || '192.168.99.100';
+
+// create a service to emit a request
+const requestService = goodly({ name: 'example3-request' });
+
+// create a service that listens for requests
+const responseService = goodly({ name: 'example-response' });
+responseService.on('request.greeting', handleRequest);
+
+// handles when a request happens by replying a results
+async function handleRequest({ data, reply }) {
+  await reply('hello ' + data.name);
 }
 
-// request service
-(async () => {
 
-  const service = goodly({ name: 'example3-request' });
-  await service.start({ brokerPath: process.argv[2] });
+// start the services
+Promise.resolve()
+  .then(() => requestService.start({ brokerPath }))
+  .then(() => responseService.start({ brokerPath }))
+  .then(async () => {
 
-  // send a request to the 'request' event and block 
-  // execution until there is a result from some service
-  let result = await service.request('request', { name: 'world' });
-  console.log(result);
+    // make a request
+    let response = await requestService.request('request.greeting', { name: 'world' });
 
-})().catch(console.log);
+    // output the result
+    console.log('Received reply: ' + response);
 
-
-// response service
-(async () => {
-
-  const service = goodly({ name: 'example3-response' });
-  await service.start({ brokerPath: process.argv[2] });
-
-  // listen for the request event and reply back
-  await service.on('request', async ({ data, reply }) => {
-    await reply('hello ' + data.name);
-  });
-
-})().catch(console.log);
+  })
+  .catch(console.log);

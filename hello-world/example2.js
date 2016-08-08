@@ -4,43 +4,36 @@
 
 import goodly from 'goodly';
 
-if(!process.argv[2]) {
-  console.log('You must supply the broker path');
-  process.exit(1);
+const brokerPath = process.argv[2] || '192.168.99.100';
+
+// create the ping service
+const pingService = goodly({ name: 'example2-ping' });
+pingService.on('pong', onPong);
+
+// create the pong service
+const pongService = goodly({ name: 'example2-pong' });
+pongService.on('ping', onPing);
+
+// start the services
+Promise.resolve()
+  .then(() => pingService.start({ brokerPath }))
+  .then(() => pongService.start({ brokerPath }))
+  .then(() => console.log('services have started!'))
+  .then(() => pongService.emit('pong'))
+  .catch(console.log);
+
+// handler for pong events
+async function onPong({ emit }) {
+  setTimeout(() => {
+    console.log('ping');
+    emit('ping');
+  }, 500);
 }
 
-// ping service
-(async () => {
-  let rounds = 0;
-
-  const service = goodly({ name: 'example2-ping' });
-  await service.start({ brokerPath: process.argv[2] });
-
-  // list to the pong event and emit a ping event
-  await service.on('pong', async ({ emit }) => {
-    if(rounds > 5) return;
-
-    console.log('ping');
-    await emit('ping');
-    rounds++;
-  });
-
-  // start the ping/pong with a ping
-  service.emit('ping');
-
-})().catch(console.log);
-
-
-// pong service
-(async () => {
-
-  const service = goodly({ name: 'example2-pong' });
-  await service.start({ brokerPath: process.argv[2] });
-
-  // list to the ping event and emit a pong event
-  await service.on('ping', async ({ emit }) => {
+// handler for ping events
+async function onPing({ emit }) {
+  setTimeout(() => {
     console.log('pong');
-    await emit('pong');
-  });
-
-})().catch(console.log);
+    emit('pong');
+  }, 500);
+}
