@@ -8,14 +8,13 @@ From the `hello-world` directory, start by installing the node dependencies
 npm install
 ```
 
-Once the node dependencies are installed, and with RabbitMQ running, you can start the services from NPM scripts. Pass the IP address / host of RabbitMQ as the first argument.
+Once the node dependencies are installed, and with RabbitMQ running, you can start the services from NPM scripts. Pass the IP address / host of RabbitMQ as the first argument if the host is NOT 192.168.99.100
 
 ```sh
-npm run example1 192.168.99.100
-npm run example2 192.168.99.100
-npm run example2 192.168.99.100
-npm run example2 192.168.99.100
-npm run example2 192.168.99.100
+npm run example1
+npm run example2
+npm run example3
+npm run example4
 ```
 
 For additional logging, you can use set the environment variable DEBUG=goodly* when executing the script
@@ -29,4 +28,3 @@ DEBUG=goodly* npm run example1 192.168.99.100
 2. [view](https://github.com/bmancini55/goodly-example/blob/master/hello-world/example2.js) - Two servics interacting by listening to messages and emitting messages
 3. [view](https://github.com/bmancini55/goodly-example/blob/master/hello-world/example3.js) - Request/response of a service calling out to another service
 4. [view](https://github.com/bmancini55/goodly-example/blob/master/hello-world/example4.js) - Use of middleware when listening to messages
-5. [view](https://github.com/bmancini55/goodly-example/blob/master/hello-world/example5.js) - Using the HTTP Transport mechanism to avoid sending data through RabbitMQ
